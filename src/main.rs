@@ -70,6 +70,7 @@ impl UpdateSession {
             info!("Skipping Steam check because the server was not woken up");
             return;
         }
+        info!("Waiting for {} minutes of no Steam network usage", self.machine.steam_delay());
         let mut last_usage = std::time::SystemTime::now();
         loop {
             let usage: u64 = String::from_utf8(self
@@ -83,7 +84,6 @@ impl UpdateSession {
             if usage > 250 {
                 last_usage = std::time::SystemTime::now();
             } else if last_usage.elapsed().unwrap().as_secs() > self.machine.steam_delay() * 60 {
-                error!("No usage, shutting down");
                 break;
             }
             tokio::time::sleep(std::time::Duration::from_secs(1)).await;

@@ -37,6 +37,8 @@ The updater uses SSH to connect, authorized keys are required.
 
 If a MAC address is provided, the updater will send a magic packet to wake the machine up before updating, if it is off.
 
+Ensure that Wake on LAN is enabled in the BIOS, connected via ethernet, and configured in the OS. Check the [Arch Wiki](https://wiki.archlinux.org/title/Wake-on-LAN#Software_configuration) for some information on software configuration.
+
 ### Cron
 
 The updater will run on the schedule provided.
