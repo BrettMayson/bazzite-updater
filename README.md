@@ -2,6 +2,8 @@
 
 A docker image to update your bazzite system on a schedule.
 
+Not actually that specific to Bazzite at the moment, but may become more so in the future.
+
 ## Usage
 
 ```bash
