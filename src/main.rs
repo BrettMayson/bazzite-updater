@@ -31,9 +31,9 @@ impl UpdateSession {
                     warn!("Failed to connect to Bazzite: {:?}", e);
                     if tries == 2 {
                         if let Some(mac) = machine.mac() {
+                            did_wake = true;
                             wol(mac);
                             tokio::time::sleep(std::time::Duration::from_secs(60)).await;
-                            did_wake = true;
                         } else {
                             info!("No MAC address provided, skipping WOL");
                             return Err(
@@ -48,7 +48,7 @@ impl UpdateSession {
                 }
             }
         };
-        info!("Connected to Bazzite");
+        info!("Connected to Bazzite, did_wake: {:?}", did_wake);
         Ok(Self {
             session,
             machine: machine.clone(),
@@ -91,6 +91,7 @@ impl UpdateSession {
     }
 
     async fn flatpak(&self) {
+        info!("Updating flatpaks");
         let output = self.command("sudo flatpak update -y").await;
         if !output.status.success() {
             error!(
